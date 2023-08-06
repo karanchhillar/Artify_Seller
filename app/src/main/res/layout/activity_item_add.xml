@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Toolbar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/toolbarImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/back_img" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="Toolbar Title"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <!-- Image -->
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/upload_img" />
+
+    <!-- Product Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Product Name"
+
+        android:textSize="16sp" />
+
+    <!-- Edit Text for Product Name -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:hint="Enter product name" />
+
+    <!-- Prize -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:textSize="16sp"/>
+
+    <!-- Edit Text for Price -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:hint="Enter price" />
+
+    <!-- Available Quantity -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Available Quantity"
+        android:textSize="16sp"
+        />
+
+    <!-- Edit Text for Available Quantity -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:hint="Enter available quantity" />
+
+    <!-- Product Description -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Description"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:paddingTop="16dp" />
+
+    <!-- Edit Text for Product Description -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter product description"
+        android:fontFamily="sans-serif"
+        android:minLines="4"
+        android:gravity="top" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="SAVE"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:backgroundTint="#4CBB17"
+        android:fontFamily="sans-serif"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

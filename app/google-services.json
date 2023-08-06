@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1014761608187",
+    "project_id": "artify-53e51",
+    "storage_bucket": "artify-53e51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014761608187:android:53a2bef7609bd89dc3f15e",
+        "android_client_info": {
+          "package_name": "com.example.artifyseller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014761608187-3i7nqkj5klrgc0vfav9asmun33o0fvfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVctd7vptmSs4XlRRuhEh9lVMMPxWznfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014761608187-3i7nqkj5klrgc0vfav9asmun33o0fvfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
