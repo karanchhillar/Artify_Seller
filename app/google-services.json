@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1014761608187-3i7nqkj5klrgc0vfav9asmun33o0fvfc.apps.googleusercontent.com",
+          "client_id": "1014761608187-i4e78ptc8a0fhj7eht5c6bmdtatunon2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.artifyseller",
+            "certificate_hash": "cbada4152beca2c31dda3a0def4bfbcead1813b5"
+          }
+        },
+        {
+          "client_id": "1014761608187-dhmr6o8j80dc1pe79kc701lgpga20e8c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

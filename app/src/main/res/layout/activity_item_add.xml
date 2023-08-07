@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/toolbarImage"
+            android:id="@+id/toolbarBackImage"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/back_img" />
@@ -29,8 +29,9 @@
 
     <!-- Image -->
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:id="@+id/product_image"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:src="@drawable/upload_img" />
 
@@ -38,6 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Product Name"
 
         android:textSize="16sp" />
@@ -47,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:maxLines="2"
         android:hint="Enter product name" />
 
     <!-- Prize -->
@@ -61,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:maxLines="1"
         android:hint="Enter price" />
 
     <!-- Available Quantity -->
@@ -76,6 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:maxLines="1"
         android:hint="Enter available quantity" />
 
     <!-- Product Description -->
@@ -94,12 +99,13 @@
         android:hint="Enter product description"
         android:fontFamily="sans-serif"
         android:minLines="4"
+        android:maxLines="5"
         android:gravity="top" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="SAVE"
         android:textSize="30dp"
         android:textColor="@color/black"

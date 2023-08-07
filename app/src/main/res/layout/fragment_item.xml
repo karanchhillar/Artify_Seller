@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".ItemFragment">
 
@@ -10,27 +11,36 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_item_image"
         app:layout_constraintVertical_bias="0.0" />
-
 
     <ImageButton
         android:id="@+id/plusButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_margin="20dp"
         android:background="@drawable/rounded_edittext"
         android:backgroundTint="@color/dark_orange"
-        android:layout_margin="20dp"
+        android:src="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/your_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/your_items_img"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_plus" />
-
-
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

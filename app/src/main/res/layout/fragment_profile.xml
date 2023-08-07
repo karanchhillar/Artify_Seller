@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="fill_parent">
     <!-- Here you put the rest of your current view-->
     <LinearLayout
@@ -14,13 +14,10 @@
         <!-- Toolbar -->
         <RelativeLayout
             android:layout_width="match_parent"
+            android:background="@drawable/background_border"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/toolbarImage"
-                android:layout_width="42dp"
-                android:layout_height="40dp"
-                android:src="@drawable/back_img" />
+
 
             <TextView
                 android:id="@+id/toolbarTitle"
@@ -29,6 +26,15 @@
                 android:gravity="center"
                 android:text="Profile"
                 android:textSize="22sp" />
+
+            <ImageView
+                android:id="@+id/logoutImage"
+                android:layout_width="42dp"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/logout_img" />
         </RelativeLayout>
 
         <!-- Image -->
@@ -49,6 +55,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:fontFamily="sans-serif"
             android:hint="Enter name" />
 
@@ -65,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:maxLines="1"
             android:fontFamily="sans-serif"
             android:hint="Enter phone number" />
 
@@ -81,6 +89,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:inputType="phone"
+            android:maxLines="2"
             android:hint="Enter email" />
 
         <!-- Available Quantity -->
@@ -98,6 +107,7 @@
             android:layout_height="wrap_content"
             android:inputType="date"
             android:fontFamily="sans-serif"
+            android:maxLines="1"
             android:hint="DD/MM/YYYY" />
 
         <!-- Product Description -->
@@ -116,6 +126,7 @@
             android:hint="Enter Address"
             android:fontFamily="sans-serif"
             android:minLines="4"
+            android:maxLines="5"
             android:gravity="top" />
 
         <Button

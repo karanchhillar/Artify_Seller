@@ -52,9 +52,22 @@
     <View
         android:id="@+id/view"
         android:layout_width="250dp"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#CF9FFF"
+        android:text="Sign up"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_editText2" />
 
@@ -62,22 +75,35 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/mouldy_cheese_regular"
         android:text="Sign IN with Google Account"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <ImageButton
+        android:id="@+id/sign_in_with_google"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/google_img"
         app:layout_constraintEnd_toEndOf="@+id/password_editText2"
         app:layout_constraintStart_toStartOf="@+id/password_editText2"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/new_user_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/mouldy_cheese_regular"
+        android:text="New User? Click here."
+        android:textColor="#0000EE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_with_google" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
