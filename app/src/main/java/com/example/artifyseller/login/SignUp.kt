@@ -10,7 +10,9 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import com.example.artifyseller.MainActivity
+import com.example.artifyseller.ProfileFragment
 import com.example.artifyseller.R
+import com.example.artifyseller.UserInformation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 
@@ -52,7 +54,7 @@ class SignUp : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful){
                         Toast.makeText(this, "New Id created", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, UserInformation::class.java))
                     }
                     else{
                         Toast.makeText(this, "${task.exception}", Toast.LENGTH_SHORT).show()

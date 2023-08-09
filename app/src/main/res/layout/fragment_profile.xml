@@ -1,145 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="fill_parent">
-    <!-- Here you put the rest of your current view-->
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.artifyseller.viewmodel.ViewModel" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:padding="16dp">
+        tools:context=".ProfileFragment"
+        android:background="@color/pale_yellow">
 
-        <!-- Toolbar -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            tools:context=".ProfileFragment"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
             android:background="@drawable/background_border"
-            android:layout_height="wrap_content">
+            android:padding="16dp">
 
+            <!-- Toolbar -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_border"
+                android:padding="8dp">
 
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="Profile"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/logoutImage"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/logout_img" />
+            </RelativeLayout>
+
+            <!-- Image -->
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/user_photo" />
+
+            <!-- Product Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gray" />
+
+            <!-- Edit Text for Product Name -->
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:maxLines="1"
+                android:fontFamily="sans-serif"
+                android:hint="Enter name" />
+
+            <!-- Prize -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:paddingTop="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gray" />
+
+            <!-- Edit Text for Price -->
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:editable="false"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:maxLines="1" />
 
             <TextView
-                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:paddingTop="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gray" />
+
+            <!-- Edit Text for Price -->
+            <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="Profile"
-                android:textSize="22sp" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:editable="false"
+                android:hint="Enter email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
 
-            <ImageView
-                android:id="@+id/logoutImage"
-                android:layout_width="42dp"
-                android:layout_height="48dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/logout_img" />
-        </RelativeLayout>
+            <!-- Available Quantity -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date Of Birth"
+                android:paddingTop="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gray" />
 
-        <!-- Image -->
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:src="@drawable/user_photo" />
+            <!-- Edit Text for Available Quantity -->
+            <EditText
+                android:id="@+id/dateofbirth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:editable="false"
+                android:hint="DD/MM/YYYY"
+                android:inputType="date"
+                android:maxLines="1" />
 
-        <!-- Product Name -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:paddingTop="16dp"
+                android:textColor="@color/dark_gray" />
 
-        <!-- Edit Text for Product Name -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:fontFamily="sans-serif"
-            android:hint="Enter name" />
 
-        <!-- Prize -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Phone Number"
-            android:paddingTop="16dp"
-            android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:editable="false"
+                android:gravity="top"
+                android:hint="Enter Address"
+                android:maxLines="5"
+                android:minLines="4" />
 
-        <!-- Edit Text for Price -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:maxLines="1"
-            android:fontFamily="sans-serif"
-            android:hint="Enter phone number" />
+            <Button
+                android:id="@+id/button_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/dark_orange"
+                android:fontFamily="sans-serif"
+                android:text="Change"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:paddingTop="16dp"
-            android:textSize="16sp"/>
+        </LinearLayout>
 
-        <!-- Edit Text for Price -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:inputType="phone"
-            android:maxLines="2"
-            android:hint="Enter email" />
+    </ScrollView>
 
-        <!-- Available Quantity -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date Of Birth"
-            android:paddingTop="16dp"
-            android:textSize="16sp"
-            />
 
-        <!-- Edit Text for Available Quantity -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:fontFamily="sans-serif"
-            android:maxLines="1"
-            android:hint="DD/MM/YYYY" />
-
-        <!-- Product Description -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Address"
-            android:textSize="18sp"
-            android:layout_gravity="center"
-            android:paddingTop="16dp" />
-
-        <!-- Edit Text for Product Description -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Address"
-            android:fontFamily="sans-serif"
-            android:minLines="4"
-            android:maxLines="5"
-            android:gravity="top" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="#4CBB17"
-            android:fontFamily="sans-serif"
-            android:text="SAVE"
-            android:textColor="@color/black"
-            android:textSize="30dp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</layout>

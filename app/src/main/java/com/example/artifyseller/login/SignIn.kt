@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.artifyseller.MainActivity
 import com.example.artifyseller.R
+import com.example.artifyseller.UserInformation
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -46,7 +47,6 @@ class SignIn : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-
 
 
         signInButton.setOnClickListener {
@@ -119,7 +119,7 @@ class SignIn : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener{
                 if (it.isSuccessful){
-                    val intent : Intent = Intent(this , MainActivity::class.java)
+                    val intent : Intent = Intent(this , UserInformation::class.java)
                     startActivity(intent)
                 }else{
                     Toast.makeText(this , it.exception.toString() , Toast.LENGTH_SHORT).show()

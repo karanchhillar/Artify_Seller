@@ -9,60 +9,65 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.artifyseller.data.User
-import com.example.artifyseller.data.UserItemAdd
-import com.example.artifyseller.databinding.ActivityItemAddBinding
-import com.example.artifyseller.viewmodel.ViewModel
+import com.example.artifyseller.databinding.ActivityUserInformationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
-import java.util.Date
 
-class ItemAdd : AppCompatActivity() {
-
-    private lateinit var binding : ActivityItemAddBinding
-    private lateinit var imageBitmap : Bitmap
+class UserInformation : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var storage: FirebaseStorage
+    private lateinit var binding : ActivityUserInformationBinding
+    private  lateinit var imageBitmap : Bitmap
     private var selectedImg: Uri? = null
-    private lateinit var vm : ViewModel
-    @SuppressLint("MissingInflatedId")
+    private lateinit var vm : com.example.artifyseller.viewmodel.ViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityItemAddBinding.inflate(layoutInflater)
+        binding = ActivityUserInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val backImage : ImageView = findViewById(R.id.toolbarBackImage)
+        auth = FirebaseAuth.getInstance()
+        vm = ViewModelProvider(this).get(com.example.artifyseller.viewmodel.ViewModel::class.java)
 
-        backImage.setOnClickListener {
-            val intent = Intent(this, ItemFragment::class.java)
-            startActivity(intent)
+        vm.profile_photo.observe(this , Observer {
+            Picasso.get().load(it).into(binding.profilePhoto)
+        })
+
+        vm.retrive_user_data{
+            binding.nameText.setText(it.name.toString())
+            binding.phoneNumberText.setText(it.phone_number.toString())
+            binding.emailText.setText(it.email.toString())
+            binding.dateOfBirthText.setText(it.DOB.toString())
+            binding.addressText.setText(it.address.toString())
+            Picasso.get().load(it.profile_photo).into(binding.profilePhoto)
         }
 
-        binding.saveItemButton.setOnClickListener {
-            // this function also include the code to store data in fire store
-            uploadImageToStorage(imageBitmap)
 
-            val intent = Intent(this , ItemFragment::class.java)
-            startActivity(intent)
-        }
-
-        binding.productImage.setOnClickListener {
+        binding.profilePhoto.setOnClickListener {
             imageOptionDialogue()
         }
+        binding.saveButton.setOnClickListener {
+            uploadImageToStorage(imageBitmap)
+            Log.d("hello" , uploadImageToStorage(imageBitmap).toString())
+            startActivity(Intent(this , MainActivity::class.java))
+            finish()
+        }
     }
-    // code to send image to storage and the getting uri
+
     fun uploadImageToStorage(imageBitmap : Bitmap){
         auth = FirebaseAuth.getInstance()
-        vm = ViewModelProvider(this).get(ViewModel::class.java)
         val baos = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
@@ -70,21 +75,24 @@ class ItemAdd : AppCompatActivity() {
         storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
 
-        val storagePath = storageRef.child("Photos/${Date().time.toString()}.jpg")
+        val storagePath = storageRef.child("Photos/${auth.currentUser?.uid}.jpg")
         val uploadTask = storagePath.putBytes(data)
 
         uploadTask.addOnSuccessListener { it ->
             val task = it.metadata?.reference?.downloadUrl
             task?.addOnSuccessListener {
                 selectedImg = it
-                val user_item_data = UserItemAdd(binding.productNameTextView.text.toString() ,
-                    binding.priceTextView.text.toString().toInt() ,
-                    binding.availableQuantityTextView.text.toString() ,
-                    binding.productDescription.text.toString(),
+                val user = User(binding.nameText.text.toString() ,
+                    binding.phoneNumberText.text.toString().toLong() ,
+                    binding.emailText.text.toString() ,
+                    binding.dateOfBirthText.text.toString(),
+                    binding.addressText.text.toString(),
                     selectedImg.toString())
 
-                vm.upload_item_data(user_item_data)
-                Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                vm.upload_user_data(user)
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+                val intent  = Intent()
+                intent.putExtra("image_uri" , "$it")
             }
                 ?.addOnFailureListener {
                     Toast.makeText(this, "task failed", Toast.LENGTH_SHORT).show()
@@ -92,7 +100,6 @@ class ItemAdd : AppCompatActivity() {
         }
     }
 
-    // code for choosing btw camera and media
     private fun imageOptionDialogue() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.custom_dialog_select_image_options)
@@ -137,14 +144,14 @@ class ItemAdd : AppCompatActivity() {
                 1 -> {
                     imageBitmap = data?.extras?.get("data") as Bitmap
                     try {
-                        binding.productImage.setImageBitmap(imageBitmap)
+                        binding.profilePhoto.setImageBitmap(imageBitmap)
                     }catch (e: Exception){}
                 }
                 2 -> {
                     val imageUri = data?.data
                     imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
                     try {
-                        binding.productImage.setImageBitmap(imageBitmap)
+                        binding.profilePhoto.setImageBitmap(imageBitmap)
                     }catch (e :Exception){
                     }
                 }

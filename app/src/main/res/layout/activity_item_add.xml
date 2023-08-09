@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/white"
+    tools:context=".ItemAdd"
     android:padding="16dp">
 
     <!-- Toolbar -->
@@ -46,6 +47,7 @@
 
     <!-- Edit Text for Product Name -->
     <EditText
+        android:id="@+id/product_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -61,6 +63,7 @@
 
     <!-- Edit Text for Price -->
     <EditText
+        android:id="@+id/price_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -77,6 +80,7 @@
 
     <!-- Edit Text for Available Quantity -->
     <EditText
+        android:id="@+id/available_quantity_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -94,6 +98,7 @@
 
     <!-- Edit Text for Product Description -->
     <EditText
+        android:id="@+id/product_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter product description"
@@ -103,6 +108,7 @@
         android:gravity="top" />
 
     <Button
+        android:id="@+id/save_item_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
