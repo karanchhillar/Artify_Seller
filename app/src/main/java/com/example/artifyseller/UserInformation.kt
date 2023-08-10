@@ -9,15 +9,10 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.net.toUri
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.example.artifyseller.data.User
 import com.example.artifyseller.databinding.ActivityUserInformationBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +26,10 @@ class UserInformation : AppCompatActivity() {
     private lateinit var binding : ActivityUserInformationBinding
     private  lateinit var imageBitmap : Bitmap
     private var selectedImg: Uri? = null
+    private var imageWhenNotChanged: String? = null
     private lateinit var vm : com.example.artifyseller.viewmodel.ViewModel
+    private var photoClicked : Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,50 +47,62 @@ class UserInformation : AppCompatActivity() {
             binding.dateOfBirthText.setText(it.DOB.toString())
             binding.addressText.setText(it.address.toString())
             Picasso.get().load(it.profile_photo).into(binding.profilePhoto)
+            imageWhenNotChanged = it.profile_photo
         }
 
         binding.profilePhoto.setOnClickListener {
             imageOptionDialogue()
         }
         binding.saveButton.setOnClickListener {
-            uploadImageToStorage(imageBitmap)
-            Log.d("hello" , uploadImageToStorage(imageBitmap).toString())
+            uploadImageToStorage(imageBitmap = null)
             startActivity(Intent(this , MainActivity::class.java))
             finish()
         }
     }
-    fun uploadImageToStorage(imageBitmap : Bitmap){
-        auth = FirebaseAuth.getInstance()
-        val baos = ByteArrayOutputStream()
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
+    fun uploadImageToStorage(imageBitmap: Bitmap?){
+        if (photoClicked == 1){
+            auth = FirebaseAuth.getInstance()
+            val baos = ByteArrayOutputStream()
+            imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
 
-        storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference
+            storage = FirebaseStorage.getInstance()
+            val storageRef = storage.reference
 
-        val storagePath = storageRef.child("Photos/${auth.currentUser?.uid}.jpg")
-        val uploadTask = storagePath.putBytes(data)
+            val storagePath = storageRef.child("Photos/${auth.currentUser?.uid}.jpg")
+            val uploadTask = storagePath.putBytes(data)
 
-        uploadTask.addOnSuccessListener { it ->
-            val task = it.metadata?.reference?.downloadUrl
-            task?.addOnSuccessListener {
-                selectedImg = it
-                val user = User(binding.nameText.text.toString() ,
-                    binding.phoneNumberText.text.toString().toLong() ,
-                    binding.emailText.text.toString() ,
-                    binding.dateOfBirthText.text.toString(),
-                    binding.addressText.text.toString(),
-                    selectedImg.toString())
+            uploadTask.addOnSuccessListener { it ->
+                val task = it.metadata?.reference?.downloadUrl
+                task?.addOnSuccessListener {
+                    selectedImg = it
+                    val user = User(binding.nameText.text.toString() ,
+                        binding.phoneNumberText.text.toString().toLong() ,
+                        binding.emailText.text.toString() ,
+                        binding.dateOfBirthText.text.toString(),
+                        binding.addressText.text.toString(),
+                        selectedImg.toString())
 
-                vm.upload_user_data(user)
-                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
-                val intent  = Intent()
-                intent.putExtra("image_uri" , "$it")
-            }
-                ?.addOnFailureListener {
-                    Toast.makeText(this, "task failed", Toast.LENGTH_SHORT).show()
+                    vm.upload_user_data(user)
+                    Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
                 }
+                    ?.addOnFailureListener {
+                        Toast.makeText(this, "task failed", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }else if (photoClicked == 0){
+            auth = FirebaseAuth.getInstance()
+            val user = User(binding.nameText.text.toString() ,
+                binding.phoneNumberText.text.toString().toLong() ,
+                binding.emailText.text.toString() ,
+                binding.dateOfBirthText.text.toString(),
+                binding.addressText.text.toString(),
+                imageWhenNotChanged.toString())
+
+            vm.upload_user_data(user)
+            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun imageOptionDialogue() {
@@ -133,6 +143,7 @@ class UserInformation : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        photoClicked = 1
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {

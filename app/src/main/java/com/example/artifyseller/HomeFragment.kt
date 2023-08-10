@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
 
         vm.retrive_user_data {
 //            name= it.name.toString()
-            binding.nameTextView.text = "Welcome, ${it.name.toString()}"
+            binding.nameTextView.text = it.name.toString()
         }
 
 //        binding.nameTextView.text = "Welcome, $name"

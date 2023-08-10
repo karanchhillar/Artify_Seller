@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.artifyseller.databinding.FragmentProfileBinding
 import com.example.artifyseller.login.SignIn
@@ -22,13 +23,21 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater,container,false)
 
         val auth = FirebaseAuth.getInstance()
 
         vm = ViewModelProvider(this).get(ViewModel::class.java)
+
+        vm.name_text.observe(viewLifecycleOwner, Observer {
+            binding.name.setText(it)
+        })
+
+        vm.profile_photo.observe(viewLifecycleOwner, Observer {
+            Picasso.get().load(it).into(binding.profileImage)
+        })
 
         vm.retrive_user_data {
             binding.name.setText(it.name.toString())
@@ -38,12 +47,14 @@ class ProfileFragment : Fragment() {
             binding.address.setText(it.address.toString())
             Picasso.get().load(it.profile_photo).into(binding.profileImage)
         }
+
         binding.buttonChange.setOnClickListener {
             val intent  = Intent(activity , UserInformation::class.java)
             activity?.startActivity(intent)
             activity?.finish()
 
         }
+
         val logoutButton : ImageView = binding.logoutImage
 
         logoutButton.setOnClickListener {
