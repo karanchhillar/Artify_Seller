@@ -41,9 +41,6 @@ class UserInformation : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         vm = ViewModelProvider(this).get(com.example.artifyseller.viewmodel.ViewModel::class.java)
 
-        vm.profile_photo.observe(this , Observer {
-            Picasso.get().load(it).into(binding.profilePhoto)
-        })
 
         vm.retrive_user_data{
             binding.nameText.setText(it.name.toString())
@@ -53,7 +50,6 @@ class UserInformation : AppCompatActivity() {
             binding.addressText.setText(it.address.toString())
             Picasso.get().load(it.profile_photo).into(binding.profilePhoto)
         }
-
 
         binding.profilePhoto.setOnClickListener {
             imageOptionDialogue()
@@ -65,7 +61,6 @@ class UserInformation : AppCompatActivity() {
             finish()
         }
     }
-
     fun uploadImageToStorage(imageBitmap : Bitmap){
         auth = FirebaseAuth.getInstance()
         val baos = ByteArrayOutputStream()
