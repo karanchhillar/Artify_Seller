@@ -48,7 +48,7 @@ class ItemAdd : AppCompatActivity() {
 
         binding.saveItemButton.setOnClickListener {
             // this function also include the code to store data in fire store
-            uploadImageToStorage(imageBitmap = null)
+            uploadImageToStorage()
 
             val intent = Intent(this , MainActivity::class.java)
             startActivity(intent)
@@ -59,12 +59,12 @@ class ItemAdd : AppCompatActivity() {
         }
     }
     // code to send image to storage and the getting uri
-    fun uploadImageToStorage(imageBitmap: Bitmap?){
+    fun uploadImageToStorage(){
         if (photoClicked == 1){
             auth = FirebaseAuth.getInstance()
             vm = ViewModelProvider(this).get(ViewModel::class.java)
             val baos = ByteArrayOutputStream()
-            imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
 
             storage = FirebaseStorage.getInstance()
@@ -144,6 +144,7 @@ class ItemAdd : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        photoClicked = 1
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {

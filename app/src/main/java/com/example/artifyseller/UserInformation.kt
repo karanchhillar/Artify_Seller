@@ -54,16 +54,16 @@ class UserInformation : AppCompatActivity() {
             imageOptionDialogue()
         }
         binding.saveButton.setOnClickListener {
-            uploadImageToStorage(imageBitmap = null)
+            uploadImageToStorage()
             startActivity(Intent(this , MainActivity::class.java))
             finish()
         }
     }
-    fun uploadImageToStorage(imageBitmap: Bitmap?){
+    fun uploadImageToStorage(){
         if (photoClicked == 1){
             auth = FirebaseAuth.getInstance()
             val baos = ByteArrayOutputStream()
-            imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
 
             storage = FirebaseStorage.getInstance()

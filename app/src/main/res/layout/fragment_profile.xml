@@ -44,7 +44,7 @@
         </RelativeLayout>
 
         <!-- Image -->
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -86,7 +86,6 @@
             android:fontFamily="sans-serif"
             android:editable="false"
             android:hint="Enter phone number"
-            android:inputType="phone"
             android:maxLines="1" />
 
         <TextView
@@ -105,7 +104,6 @@
             android:fontFamily="sans-serif"
             android:editable="false"
             android:hint="Enter email"
-            android:inputType="textEmailAddress"
             android:maxLines="1" />
 
         <!-- Available Quantity -->
@@ -125,7 +123,6 @@
             android:fontFamily="sans-serif"
             android:editable="false"
             android:hint="DD/MM/YYYY"
-            android:inputType="date"
             android:maxLines="1" />
 
         <TextView
