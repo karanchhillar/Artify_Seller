@@ -2,12 +2,15 @@ package com.example.artifyseller.viewmodel
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
+import com.example.artifyseller.data.ItemRecycler
 import com.example.artifyseller.data.User
 import com.example.artifyseller.data.UserItemAdd
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +38,7 @@ class ViewModel : ViewModel() {
 
     init {
         get_current_user()
+        retrive_item_data()
     }
 
     private fun get_current_user() = viewModelScope.launch (Dispatchers.IO){
@@ -81,16 +85,49 @@ class ViewModel : ViewModel() {
         firestore.collection("item_data").document(auth.currentUser?.uid.toString()).set(user_item_data)
     }
 
-    fun retrive_item_data(callback: (UserItemAdd) -> Unit){
-        val firestore = FirebaseFirestore.getInstance()
+//    fun retrive_item_data(callback: (ItemRecycler) -> Unit){
+//        val firestore = FirebaseFirestore.getInstance()
+//        auth = FirebaseAuth.getInstance()
+//        Log.d("item_data" , "task fcfvdasfffffffffffffffff")
+//
+//        firestore.collection("item_data").document(auth.currentUser?.uid.toString())
+//            .addSnapshotListener{value , error->
+//
+//                if (error != null){
+//                    return@addSnapshotListener
+//                }
+//                value?.documen
+//
+////                if (task.exists()){
+////                    Log.d("task" , "task Exists")
+////                    val value = task.toObject(ItemRecycler::class.java)
+////                    if (value != null) {
+////                        Log.d("hello" , value.product_description.toString())
+////                    }
+////                    callback(value!!)
+////
+////                }
+//            }
+//    }
+    val myItem = MutableLiveData<ItemRecycler>()
+    fun retrive_item_data() =viewModelScope.launch (Dispatchers.IO){
+        firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        try {
+            firestore.collection("item_add").document(auth.currentUser?.uid.toString())
+                .addSnapshotListener{value , error->
 
-        firestore.collection("item_data").document(auth.currentUser?.uid.toString()).get()
-            .addOnSuccessListener{task->
-                if (task.exists()){
-                    val value = task.toObject(UserItemAdd::class.java)
-                    callback(value!!)
+                    Log.d("item_data1" , "task fcfvdasfffffffffffffffff")
+
+                    if (error != null){
+                        return@addSnapshotListener
+                    }
+                    if (value!!.exists()) {
+                        Log.d("item_data2" , "task fcfvdasfffffffffffffffff")
+                        val itemData = value.toObject(ItemRecycler::class.java)
+                        myItem.value = itemData!!
+                    }
                 }
-            }
+        }catch (_: Exception){}
     }
 }

@@ -16,7 +16,7 @@
         >
 
         <ImageView
-            android:id="@+id/imgProf"
+            android:id="@+id/imgItem"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/upload_img"
@@ -24,22 +24,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvMail"
+            android:id="@+id/prodName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-
             android:ellipsize="end"
             android:hint="Puma"
             android:maxLines="1"
             android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/imgProf"
+            app:layout_constraintStart_toEndOf="@+id/imgItem"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvPhone"
+            android:id="@+id/prodDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -51,8 +50,8 @@
             android:textColorHint="@color/black"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tvMail"
-            app:layout_constraintTop_toBottomOf="@+id/tvMail" />
+            app:layout_constraintStart_toStartOf="@+id/prodName"
+            app:layout_constraintTop_toBottomOf="@+id/prodName" />
 
         <TextView
             android:id="@+id/available_quantity"
@@ -67,11 +66,11 @@
             android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tvPhone"
-            app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
+            app:layout_constraintStart_toStartOf="@+id/prodDetails"
+            app:layout_constraintTop_toBottomOf="@+id/prodDetails" />
 
         <TextView
-            android:id="@+id/tvDOB"
+            android:id="@+id/priceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
