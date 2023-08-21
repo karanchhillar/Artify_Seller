@@ -9,7 +9,10 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Patterns
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -26,6 +29,11 @@ import java.util.Date
 
 class ItemAdd : AppCompatActivity() {
 
+
+    var item = arrayOf("Mens", "Womens", "Home Decor","Pottery","Painting","Toys","Bags","Others")
+    var autoCompleteTextView: AutoCompleteTextView? = null
+    var adapterItems: ArrayAdapter<String>? = null
+
     private lateinit var binding : ActivityItemAddBinding
     private lateinit var imageBitmap : Bitmap
     private lateinit var auth : FirebaseAuth
@@ -39,6 +47,13 @@ class ItemAdd : AppCompatActivity() {
         binding = ActivityItemAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        autoCompleteTextView = findViewById(R.id.auto_comp_txt);
+        adapterItems =  ArrayAdapter(  this, R.layout.auto_textview,item);
+        autoCompleteTextView!!.setAdapter(adapterItems)
+
+
+
         val backImage : ImageView = findViewById(R.id.toolbarBackImage)
 
         backImage.setOnClickListener {
@@ -50,8 +65,7 @@ class ItemAdd : AppCompatActivity() {
             // this function also include the code to store data in fire store
             uploadImageToStorage()
 
-            val intent = Intent(this , MainActivity::class.java)
-            startActivity(intent)
+
         }
 
         binding.productImage.setOnClickListener {
@@ -77,14 +91,28 @@ class ItemAdd : AppCompatActivity() {
                 val task = it.metadata?.reference?.downloadUrl
                 task?.addOnSuccessListener {
                     selectedImg = it
-                    val user_item_data = UserItemAdd(binding.productNameTextView.text.toString() ,
-                        binding.priceTextView.text.toString().toInt() ,
-                        binding.availableQuantityTextView.text.toString() ,
-                        binding.productDescription.text.toString(),
-                        selectedImg.toString())
+                    if (checkForEmpty()){
+                        val user_item_data = UserItemAdd(
+                            binding.productNameTextView.text.toString() ,
+                            binding.priceTextView.text.toString().toInt() ,
+                            binding.autoCompTxt.text.toString(),
+                            "${auth.currentUser?.uid}"+"${Date().time}",
+                            "${auth.currentUser?.uid}",
+                            binding.availableQuantityTextView.text.toString() ,
+                            binding.productDescription.text.toString(),
+                            selectedImg.toString(),
+                            "${Date().time}"
+                        )
+                        uploadItem(user_item_data , "Seller_Item", auth.currentUser?.uid.toString())
+                        uploadItem(user_item_data , "All_Products", "All_Products")
+                        uploadItem(user_item_data , "Category", user_item_data.category!!)
+                        Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this , MainActivity::class.java)
+                        startActivity(intent)
+                    }
 
-                    uploadItem(user_item_data)
-                    Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show()
+
+
                 }
                     ?.addOnFailureListener {
                         Toast.makeText(this, "task failed", Toast.LENGTH_SHORT).show()
@@ -92,14 +120,27 @@ class ItemAdd : AppCompatActivity() {
             }
         }else if (photoClicked == 0){
             vm = ViewModelProvider(this).get(ViewModel::class.java)
-            val user_item_data = UserItemAdd(binding.productNameTextView.text.toString() ,
-                binding.priceTextView.text.toString().toInt() ,
-                binding.availableQuantityTextView.text.toString() ,
-                binding.productDescription.text.toString(),
-                selectedImg.toString())
+            auth = FirebaseAuth.getInstance()
+            if (checkForEmpty()){
+                val user_item_data = UserItemAdd(
+                    binding.productNameTextView.text.toString() ,
+                    binding.priceTextView.text.toString().toInt() ,
+                    binding.autoCompTxt.text.toString(),
+                    "${auth.currentUser?.uid}"+"${Date().time}",
+                    "${auth.currentUser?.uid}",
+                    binding.availableQuantityTextView.text.toString() ,
+                    binding.productDescription.text.toString(),
+                    "https://firebasestorage.googleapis.com/v0/b/artify-53e51.appspot.com/o/Photos%2F1692640012779.jpg?alt=media&token=cdd81bc9-c688-4055-83b3-9b869f3dfe5c",
+                    "${Date().time}"
+                )
+                uploadItem(user_item_data , "Seller_Item", auth.currentUser?.uid.toString())
+                uploadItem(user_item_data , "All_Products", "All_Products")
+                uploadItem(user_item_data , "Category", user_item_data.category!!)
+                Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this , MainActivity::class.java)
+                startActivity(intent)
+            }
 
-            uploadItem(user_item_data)
-            Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -166,12 +207,12 @@ class ItemAdd : AppCompatActivity() {
         }
     }
 
-private fun uploadItem(item : UserItemAdd) {
+private fun uploadItem(item : UserItemAdd , collectionName : String ,documentName : String) {
 //    var timeOfUpload : Long = Utils.getTime()
 //    var timeOfCompletion : Long = timeOfUpload + 86400
     val firestore = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
-    val itemAddRef = firestore.collection("item_add").document(auth.currentUser?.uid.toString())
+    val itemAddRef = firestore.collection(collectionName).document(documentName)
     itemAddRef.get().addOnSuccessListener {
         if (it.exists()){
             val productName = it.get("product_name") as List<*>
@@ -181,6 +222,19 @@ private fun uploadItem(item : UserItemAdd) {
             val price = it.get("price") as List<*>
             val newPrice = price.toMutableList()
             newPrice.add(item.price)
+
+            val category = it.get("category") as List<*>
+            val newCategory = category.toMutableList()
+            newCategory.add(item.category)
+
+            val productId = it.get("product_id") as List<*>
+            val newProductId = productId.toMutableList()
+            newProductId.add(item.product_id)
+
+            val sellerID = it.get("seller_id") as List<*>
+            val newSellerID = sellerID.toMutableList()
+            newSellerID.add(item.seller_id)
+
 
             val availableQuantity = it.get("available_quantity") as List<*>
             val newQuantity = availableQuantity.toMutableList()
@@ -194,19 +248,70 @@ private fun uploadItem(item : UserItemAdd) {
             val newProductImage = productImage.toMutableList()
             newProductImage.add(item.productImage)
 
+            val timeUpload = it.get("time_upload") as List<*>
+            val newTimeUpload = timeUpload.toMutableList()
+            newTimeUpload.add(item.time_upload)
+
             itemAddRef.update(hashMapOf("product_name" to newProduct,"price" to newPrice,
+                "category" to newCategory,
+                "product_id" to newProductId,
+                "seller_id" to newSellerID,
                 "available_quantity" to newQuantity , "product_description" to newProductDescription
-                ,"product_image" to newProductImage) as Map<String, Any>)
+                ,"product_image" to newProductImage,
+                "time_upload" to newTimeUpload
+
+                ) as Map<String, Any>)
 
         }else{
             val itemData = hashMapOf("product_name" to listOf(item.productName)
-                ,"price" to listOf(item.price)
-                ,"available_quantity" to listOf(item.availableQuantity)
+                ,"price" to listOf(item.price),
+                "category" to listOf(item.category),
+                "product_id" to listOf(item.product_id),
+                "seller_id" to listOf(item.seller_id),
+                "available_quantity" to listOf(item.availableQuantity)
                 , "product_description" to listOf(item.productDescription)
-                ,"product_image" to listOf(item.productImage))
+                ,"product_image" to listOf(item.productImage),
+                "time_upload" to listOf(item.time_upload)
+            )
             itemAddRef.set(itemData)
         }
     }
 
 }
+
+    private fun checkForEmpty(): Boolean {
+
+
+
+        if(binding.productNameTextView.text.isEmpty()) {
+            Toast.makeText(this@ItemAdd, "Name field is Empty!", Toast.LENGTH_SHORT).show()
+            binding.productNameTextView.requestFocus()
+            return false
+        }
+
+        if(binding.priceTextView.text.isEmpty()) {
+            Toast.makeText(this@ItemAdd, "Price field is Empty!", Toast.LENGTH_SHORT).show()
+            binding.priceTextView.requestFocus()
+            return false
+        }
+
+        if(binding.autoCompTxt.text.isEmpty()) {
+            Toast.makeText(this@ItemAdd, "Category field is Empty!", Toast.LENGTH_SHORT).show()
+            binding.autoCompTxt.requestFocus()
+            return false
+        }
+
+        if(binding.availableQuantityTextView.text.isEmpty()) {
+            Toast.makeText(this@ItemAdd, "Quantity field is Empty!", Toast.LENGTH_SHORT).show()
+            binding.availableQuantityTextView.requestFocus()
+            return false
+        }
+        if(binding.productDescription.text.isEmpty()) {
+            Toast.makeText(this@ItemAdd, "Description field is Empty!", Toast.LENGTH_SHORT).show()
+            binding.productDescription.requestFocus()
+            return false
+        }
+
+        return true
+    }
 }
