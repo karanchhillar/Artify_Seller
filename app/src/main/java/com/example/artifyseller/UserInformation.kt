@@ -63,7 +63,7 @@ class UserInformation : AppCompatActivity() {
         if (photoClicked == 1){
             auth = FirebaseAuth.getInstance()
             val baos = ByteArrayOutputStream()
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos)
             val data = baos.toByteArray()
 
             storage = FirebaseStorage.getInstance()

@@ -114,16 +114,13 @@ class ViewModel : ViewModel() {
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         try {
-            firestore.collection("item_add").document(auth.currentUser?.uid.toString())
+            firestore.collection("Seller_Item").document(auth.currentUser?.uid.toString())
                 .addSnapshotListener{value , error->
-
-                    Log.d("item_data1" , "task fcfvdasfffffffffffffffff")
 
                     if (error != null){
                         return@addSnapshotListener
                     }
                     if (value!!.exists()) {
-                        Log.d("item_data2" , "task fcfvdasfffffffffffffffff")
                         val itemData = value.toObject(ItemRecycler::class.java)
                         myItem.value = itemData!!
                     }

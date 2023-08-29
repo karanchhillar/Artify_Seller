@@ -53,7 +53,6 @@ class ItemAdd : AppCompatActivity() {
         autoCompleteTextView!!.setAdapter(adapterItems)
 
 
-
         val backImage : ImageView = findViewById(R.id.toolbarBackImage)
 
         backImage.setOnClickListener {
@@ -78,7 +77,7 @@ class ItemAdd : AppCompatActivity() {
             auth = FirebaseAuth.getInstance()
             vm = ViewModelProvider(this).get(ViewModel::class.java)
             val baos = ByteArrayOutputStream()
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos)
             val data = baos.toByteArray()
 
             storage = FirebaseStorage.getInstance()

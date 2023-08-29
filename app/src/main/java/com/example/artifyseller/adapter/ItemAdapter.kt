@@ -12,7 +12,7 @@ import com.example.artifyseller.databinding.ItemLayoutBinding
 import com.squareup.picasso.Picasso
 
 
-class ItemAdapter : RecyclerView.Adapter<ItemViewHolder>(){
+class ItemAdapter :     RecyclerView.Adapter<ItemViewHolder>(){
 
     var itemList = ItemRecycler()
     private lateinit var binding: ItemLayoutBinding
