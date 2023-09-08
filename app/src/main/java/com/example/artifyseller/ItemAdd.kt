@@ -103,6 +103,7 @@ class ItemAdd : AppCompatActivity() {
                             "${Date().time}"
                         )
                         uploadItem(user_item_data , "Seller_Item", auth.currentUser?.uid.toString())
+//                        uploadItem(user_item_data , "Paid_Promotions", "products")
                         uploadItem(user_item_data , "All_Products", "All_Products")
                         uploadItem(user_item_data , "Category", user_item_data.category!!)
                         Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show()

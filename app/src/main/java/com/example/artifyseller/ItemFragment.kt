@@ -50,5 +50,9 @@ class ItemFragment : Fragment() {
             val intent  = Intent(activity , ItemAdd::class.java)
             activity?.startActivity(intent)
         }
+        binding.showsPlusButton.setOnClickListener {
+            val intent  = Intent(activity , ShowsAdd::class.java)
+            activity?.startActivity(intent)
+        }
     }
 }
